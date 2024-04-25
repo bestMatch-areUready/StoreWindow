@@ -9,6 +9,10 @@ public class CubeScript : MonoBehaviour
     {
         
     }
+    private void OnDisable()
+    {
+        Debug.Log("cube is disabled!");
+    }
 
     // Update is called once per frame
     void Update()
