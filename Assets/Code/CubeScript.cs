@@ -7,11 +7,11 @@ public class CubeScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("cube script run!");
+        //Debug.Log("cube script run!");
     }
     private void OnDisable()
     {
-        Debug.Log("cube is disabled!");
+        //Debug.Log("cube is disabled!");
     }
 
     // Update is called once per frame
@@ -20,3 +20,4 @@ public class CubeScript : MonoBehaviour
         
     }
 }
+
