@@ -1,0 +1,40 @@
+{
+"wrap":[
+     {
+        "name": "super",
+        "bg": null,
+        "value": "2",
+        "VTpye": "0",
+        "coins": "100",
+        "item1": "0",
+        "item2": "0",
+        "item3": "0",
+        "item4": "0",
+        "item5 ": "0"
+    },
+    {
+        "name": "mega",
+        "bg": null,
+        "value": "3",
+        "VTpye": "1",
+        "coins": "200",
+        "item1": "0",
+        "item2": "0",
+        "item3": "0",
+        "item4": "0",
+        "item5 ": "0"
+    },
+    {
+        "name": "novice",
+        "bg": null,
+        "value": "4",
+        "VTpye": "1",
+        "coins": "100",
+        "item1": "0",
+        "item2": "0",
+        "item3": "0",
+        "item4": "0",
+        "item5 ": "0"
+    }   
+]
+}

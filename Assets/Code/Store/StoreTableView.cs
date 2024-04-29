@@ -37,6 +37,13 @@ public class StoreTableView : UITableView, IUIGridViewDataSource, IUITableViewDe
             dataList.Add(data);
         }
     }
+
+    protected override void OnDisable()
+    {
+        ScrollToCellAt(0, 0.1f, withMargin: true);
+        base.OnDisable();
+    }
+
     protected override void Update()
     {
         base.Update();

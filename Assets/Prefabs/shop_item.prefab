@@ -147,7 +147,6 @@ GameObject:
   - component: {fileID: 360251089692322127}
   - component: {fileID: 2999167677849242758}
   - component: {fileID: 1478725929748057182}
-  - component: {fileID: 6440734476826964981}
   m_Layer: 5
   m_Name: shop_item
   m_TagString: Untagged
@@ -259,18 +258,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1478725929748057182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2785924349095027241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38736a8160a3e9442b6012051822f9d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6440734476826964981
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,0 +1,138 @@
+{
+  "wrap": [
+    {
+      "name": "super",
+      "bg": "TestOfNULL",
+      "value": "2",
+      "VType": "0",
+      "coins": "100",
+      "content": [
+        {
+          "id": "id1",
+          "cnt": "1"
+        },
+        {
+          "id": "id2",
+          "cnt": "2"
+        },
+        {
+          "id": "id6",
+          "cnt": "4"
+        }
+      ]
+    },
+    {
+      "name": "novice1",
+      "bg": "GameScreenRef.png",
+      "value": "0",
+      "VType": "1",
+      "coins": "100",
+      "content": [
+        {
+          "id": "id1",
+          "cnt": "1"
+        },
+        {
+          "id": "id3",
+          "cnt": "3"
+        },
+        {
+          "id": "id4",
+          "cnt": "4"
+        }
+      ]
+    },
+    {
+      "name": "novice2",
+      "bg": "GameScreenRef.png",
+      "value": "0",
+      "VType": "1",
+      "coins": "100",
+      "content": [
+        {
+          "id": "id1",
+          "cnt": "1"
+        },
+        {
+          "id": "id2",
+          "cnt": "2"
+        },
+        {
+          "id": "id3",
+          "cnt": "3"
+        }
+      ]
+    },
+    {
+      "name": "novice3",
+      "bg": "GameScreenRef.png",
+      "value": "0",
+      "VType": "1",
+      "coins": "100",
+      "content": [
+        {
+          "id": "id1",
+          "cnt": "1"
+        },
+        {
+          "id": "id2",
+          "cnt": "2"
+        },
+        {
+          "id": "id3",
+          "cnt": "3"
+        },
+        {
+          "id": "id4",
+          "cnt": "4"
+        }
+      ]
+    },
+    {
+      "name": "novice4",
+      "bg": "GameScreenRef.png",
+      "value": "0",
+      "VType": "1",
+      "coins": "100",
+      "content": [
+        {
+          "id": "id2",
+          "cnt": "2"
+        },
+        {
+          "id": "id3",
+          "cnt": "3"
+        },
+        {
+          "id": "id4",
+          "cnt": "4"
+        }
+      ]
+    },
+    {
+      "name": "novice5",
+      "bg": "GameScreenRef.png",
+      "value": "0",
+      "VType": "1",
+      "coins": "100",
+      "content": [
+        {
+          "id": "id1",
+          "cnt": "1"
+        },
+        {
+          "id": "id2",
+          "cnt": "2"
+        },
+        {
+          "id": "id3",
+          "cnt": "3"
+        },
+        {
+          "id": "id4",
+          "cnt": "4"
+        }
+      ]
+    }
+  ]
+}
