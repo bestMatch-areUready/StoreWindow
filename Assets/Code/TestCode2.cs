@@ -15,4 +15,8 @@ public class TestCode2 : MonoBehaviour
     {
         
     }
+    void test()
+    {
+        Debug.Log("main branch");
+    }
 }
