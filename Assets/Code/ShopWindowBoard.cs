@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class ShopWindowBoard : MonoBehaviour
 {
+    public enum PageContent
+    {
+        Chest,
+        Prop,
+        Coin
+    }
+
     [SerializeField]
     private ShopEdgeMenu menu;
 
@@ -13,9 +20,14 @@ public class ShopWindowBoard : MonoBehaviour
     [SerializeField]
     private GameObject storeView;
 
+    public static ShopWindowBoard instance;
+
     private void Awake()
     {
         menu.onBtnClicked += changePage;
+
+        if (instance == null)
+            instance = this;
     }
 
     void changePage()
@@ -30,6 +42,12 @@ public class ShopWindowBoard : MonoBehaviour
         else
         {
             storeView.SetActive(true);
+            storeView.GetComponent<StoreTableView>().ChangeSelectTab(menu.CurrentIndex - 1);
         }
+    }
+
+    public void ChangeSelectTab(PageContent index)
+    {
+        menu.OnButtonClick((int)index);
     }
 }

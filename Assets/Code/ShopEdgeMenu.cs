@@ -35,11 +35,16 @@ public class ShopEdgeMenu : MonoBehaviour
     public void OnButtonClick(int index)
     {
         if (curIndex == index) return;
+        if (index >= btns.Count)
+        {
+            Debug.LogError("Index out of range");
+            return;
+        }
 
         btns[curIndex].GetComponent<Image>().enabled = false;
         btns[index].GetComponent<Image>().enabled = true;
 
-        curIndex=index;
+        curIndex = index;
         onBtnClicked?.Invoke();
     }
 }

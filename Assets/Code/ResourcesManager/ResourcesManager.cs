@@ -8,6 +8,9 @@ public class ResourcesManager : MonoBehaviour
     [SerializeField]
     List<Sprite> itemIcons = new List<Sprite>();
 
+    [SerializeField]
+    private Sprite coinImage;
+
     /// <summary>
     /// Í¼Æ¬Ë÷ÒıÅäÖÃ
     /// </summary>
@@ -46,6 +49,10 @@ public class ResourcesManager : MonoBehaviour
         }
     }
 
+    public Sprite CoinImage
+    {
+        get { return coinImage; }
+    }
     public Sprite ItemIcon(int id)
     {
         if (id < itemIcons.Count)

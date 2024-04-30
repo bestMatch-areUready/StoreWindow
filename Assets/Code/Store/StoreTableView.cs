@@ -29,13 +29,14 @@ public class StoreTableView : UITableView, IUIGridViewDataSource, IUITableViewDe
 
         _columnNumber = 3;
 
-        for (int i = 0; i < 5; i++)
-        {
-            var data = new List<StorePageData>();
-            int cnt = UnityEngine.Random.Range(10, 20);
-            data.AddRange(CreateCellData(cnt));
-            dataList.Add(data);
-        }
+        var data = new List<StorePageData>();
+        int cnt = UnityEngine.Random.Range(10, 20);
+        data.AddRange(CreateCellData(cnt));
+        dataList.Add(data);
+
+        var coinPurchaseData = new List<StorePageData>();
+        coinPurchaseData.AddRange(CreateCoinPurchaseCell(10));
+        dataList.Add(coinPurchaseData);
     }
 
     protected override void OnDisable()
@@ -70,6 +71,26 @@ public class StoreTableView : UITableView, IUIGridViewDataSource, IUITableViewDe
         }
     }
 
+    public void ChangeSelectTab(int index)
+    {
+        _selectedTabIndex = index;
+        ReloadData();
+    }
+
+    IEnumerable<StorePageData> CreateCoinPurchaseCell(int count)
+    {
+        for (int i = 1; i < count; i++)
+        {
+            var data = new StorePageData();
+
+            int coinCnt = i * 10;
+            int consume = i * 10;
+            data.content = coinCnt + "|" + consume;
+            data.scalar = 270;
+            yield return data;
+        }
+    }
+
 
     #region IUIGridViewDataSource
     public UITableViewAlignment AlignmentOfCellsAtLastRow(UITableView grid)
@@ -79,10 +100,6 @@ public class StoreTableView : UITableView, IUIGridViewDataSource, IUITableViewDe
 
     public UITableViewCell CellAtIndexInTableView(UITableView tableView, int index)
     {
-        //if (_dataList[index] < 0)
-        //{
-        //    return tableView.ReuseOrCreateCell(_emptyCell);
-        //}
         return tableView.ReuseOrCreateCell(StoreItemCellPrefab);
     }
 

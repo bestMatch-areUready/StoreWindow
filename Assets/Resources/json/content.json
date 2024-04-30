@@ -43,11 +43,11 @@
       ]
     },
     {
-      "name": "novice2",
+      "name": "big",
       "bg": "GameScreenRef.png",
       "value": "0",
       "VType": "1",
-      "coins": "100",
+      "coins": "9999",
       "content": [
         {
           "id": "id1",
