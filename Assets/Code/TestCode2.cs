@@ -7,6 +7,7 @@ public class TestCode2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("workBranch test");
 
         Debug.Log("main branch");
     }
