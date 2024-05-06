@@ -15,7 +15,7 @@ public class ChestCell : UITableViewCell
     public new int index = 0;
     ChestJsonData data;
     int purchaseTimes;
-    public const string ChestPurchaseTimes = "Chest_Purchase_Times";
+    bool chestRamained;
     List<GameObject> itemGOPool = new List<GameObject>();
 
     [SerializeField]
@@ -112,8 +112,22 @@ public class ChestCell : UITableViewCell
             return packContent;
         }
     }
+    /// <summary>
+    /// 关于道具已购买次数的访问器
+    /// </summary>
+    public int PurchaseTimes
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(ConstKey.ChestPurchaseTimes + "_" + index, 0);
+        }
+        set
+        {
+            purchaseTimes = value;
+            PlayerPrefs.SetInt(ConstKey.ChestPurchaseTimes + "_" + index, value);
+        }
+    }
     #endregion
-
 
     /// <summary>
     /// 礼包是否可被购买
@@ -122,20 +136,28 @@ public class ChestCell : UITableViewCell
     {
         get
         {
-            return ((ApplicationModel.PurchaseTag & (1 << index)) == 0);
+            return chestRamained;
         }
         set
         {
-            if (!value)
-            {
-                ApplicationModel.PurchaseTag |= (1 << index);
-            }
-            else
-            {
-                ApplicationModel.PurchaseTag &= ~(1 << index);
-            }
-
+            chestRamained = value;
         }
+        //get
+        //{
+        //    return ((ApplicationModel.PurchaseTag & (1 << index)) == 0);
+        //}
+        //set
+        //{
+        //    if (!value)
+        //    {
+        //        ApplicationModel.PurchaseTag |= (1 << index);
+        //    }
+        //    else
+        //    {
+        //        ApplicationModel.PurchaseTag &= ~(1 << index);
+        //    }
+        //
+        //}
     }
 
     void cantPurchase()
@@ -153,8 +175,8 @@ public class ChestCell : UITableViewCell
     {
         this.index = index;
         data = content;
+        purchaseTimes = PurchaseTimes;
 
-        purchaseTimes = PlayerPrefs.GetInt(ChestPurchaseTimes + "_" + index, 0);
         if (purchaseTimes < content.PackCount)
         {
             ChestRemained = true;
@@ -272,13 +294,12 @@ public class ChestCell : UITableViewCell
 
         if (data != null)
         {
-            if (data.type == 0)
+            if (data.type == (int)ChestJsonData.packType.realMoneyPayments)
             {
                 PopupManager.instance.ConfirmPopup.Show(data, () =>
                 {
                     CoinController.instance.AddCoins(data.coins);
-                    purchaseTimes++;
-                    PlayerPrefs.SetInt(ChestPurchaseTimes + "_" + index, purchaseTimes);
+                    PurchaseTimes++;
 
                     if (RemainText != null)
                         RemainText.text = (data.PackCount - purchaseTimes) + "/" + data.PackCount;
@@ -298,8 +319,8 @@ public class ChestCell : UITableViewCell
                     PopupManager.instance.ConfirmPopup.Show(data, () =>
                     {
                         CoinController.instance.ConsumeCoins(data.coins);
-                        purchaseTimes++;
-                        PlayerPrefs.SetInt(ChestPurchaseTimes + "_" + index, purchaseTimes);
+                        PurchaseTimes++;
+
                         if (RemainText != null)
                             RemainText.text = (data.PackCount - purchaseTimes) + "/" + data.PackCount;
                         if (purchaseTimes >= data.PackCount)

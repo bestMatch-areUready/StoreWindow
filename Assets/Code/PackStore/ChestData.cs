@@ -12,6 +12,12 @@ public class ChestData
 
 public class ChestJsonData
 {
+    public enum packType
+    {
+        realMoneyPayments,
+        coinPayments
+    }
+
     public string name;
     public string bg;
     [JsonProperty("value")]
@@ -22,12 +28,6 @@ public class ChestJsonData
     public int PackCount;
 
     public int coins;
-    //public int item1;
-    //public int item2;
-    //public int item3;
-    //public int item4;
-    //public int item5;
-
     public List<item> content;
 
     public ChestJsonData()
