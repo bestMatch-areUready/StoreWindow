@@ -55,6 +55,11 @@ public class StoreItemCell : UITableViewCell
     /// </summary>
     public void ClearUp()
     {
-
+        this.GetComponent<Button>().onClick.RemoveAllListeners();
+    }
+    
+    public void OnClick()
+    {
+        //PopupManager.instance.ConfirmPopup.Show()
     }
 }

@@ -29,15 +29,6 @@ public class ConfirmPopup : MonoBehaviour
     {
         beforeShow?.Invoke();
 
-        //if (wrap == null)
-        //{
-        //    Debug.Log("popup wrap is NULL!");
-        //}
-        //else
-        //{
-        //    wrap.localScale = Vector3.zero;
-        //}
-
         gameObject.SetActive(true);
         wrap.localScale = Vector3.zero;
         if (data.type == 0)

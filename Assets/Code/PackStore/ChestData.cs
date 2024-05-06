@@ -18,6 +18,8 @@ public class ChestJsonData
     public int cost;
     [JsonProperty("VType")]
     public int type;
+    [JsonProperty("packCnt")]
+    public int PackCount;
 
     public int coins;
     //public int item1;
@@ -34,6 +36,7 @@ public class ChestJsonData
         bg = "Assets/UI/Reference/GameScreenRef.png";
         cost = 10;
         type = 0;
+        PackCount = 1;
 
         coins = 100;
 

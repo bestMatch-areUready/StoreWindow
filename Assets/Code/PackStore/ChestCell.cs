@@ -9,10 +9,111 @@ using System;
 
 public class ChestCell : UITableViewCell
 {
-    public int index = 0;
-    ChestJsonData data;
 
+    #region variables
+    [HideInInspector]
+    public new int index = 0;
+    ChestJsonData data;
+    int purchaseTimes;
+    public const string ChestPurchaseTimes = "Chest_Purchase_Times";
     List<GameObject> itemGOPool = new List<GameObject>();
+
+    [SerializeField]
+    private GameObject packItemGO;
+    [SerializeField]
+    private Image packIcon;
+    [SerializeField]
+    private TextMeshProUGUI packNameText;
+    [SerializeField]
+    private GameObject consumeLabel;
+    [SerializeField]
+    private TextMeshProUGUI remainText;
+    [SerializeField]
+    private GameObject packMask;
+    [SerializeField]
+    private GameObject packContent;
+    #endregion
+
+    #region variables_accessor
+    public GameObject PackItemGO
+    {
+        get
+        {
+            if (packItemGO == null)
+            {
+                Debug.LogError("pack item go is null");
+            }
+            return packItemGO;
+        }
+    }
+    public Image PackIcon
+    {
+        get
+        {
+            if (packIcon == null)
+            {
+                Debug.LogError("pack icon is null");
+            }
+            return packIcon;
+        }
+    }
+    public TextMeshProUGUI PackNameText
+    {
+        get
+        {
+            if (packNameText == null)
+            {
+                Debug.LogError("pack name text is null");
+            }
+            return packNameText;
+        }
+    }
+    public GameObject ConsumeLabel
+    {
+        get
+        {
+            if (consumeLabel == null)
+            {
+                Debug.LogError("consume label is null");
+            }
+            return consumeLabel;
+        }
+    }
+    public TextMeshProUGUI RemainText
+    {
+        get
+        {
+            if (remainText == null)
+            {
+                Debug.LogError("remain text is null");
+            }
+            return remainText;
+        }
+    }
+    public GameObject PackMask
+    {
+        get
+        {
+            if (packMask == null)
+            {
+                Debug.LogError("pack mask is null");
+            }
+            return packMask;
+        }
+    }
+    public GameObject PackContent
+    {
+        get
+        {
+            if (packContent == null)
+            {
+                Debug.LogError("pack content is null");
+            }
+            return packContent;
+        }
+    }
+    #endregion
+
 
     /// <summary>
     /// 礼包是否可被购买
@@ -39,8 +140,8 @@ public class ChestCell : UITableViewCell
 
     void cantPurchase()
     {
-        transform.Find("remain").GetComponentInChildren<TextMeshProUGUI>().text = "0/1";
-        transform.Find("mask").gameObject.SetActive(true);
+        RemainText.text = "0/" + data.PackCount;
+        PackMask.SetActive(true);
     }
 
     /// <summary>
@@ -53,70 +154,47 @@ public class ChestCell : UITableViewCell
         this.index = index;
         data = content;
 
-        transform.Find("name").GetComponentInChildren<TextMeshProUGUI>().text = content.name;
-        if (data.type == 0)
+        purchaseTimes = PlayerPrefs.GetInt(ChestPurchaseTimes + "_" + index, 0);
+        if (purchaseTimes < content.PackCount)
         {
-            transform.Find("coin").GetComponent<Image>().enabled = false;
-            transform.Find("coin").GetComponentInChildren<TextMeshProUGUI>().text = "$" + content.cost;
+            ChestRemained = true;
         }
         else
         {
-            transform.Find("coin").GetComponent<Image>().enabled = true;
-            transform.Find("coin").GetComponentInChildren<TextMeshProUGUI>().text = content.coins.ToString();
+            ChestRemained = false;
         }
 
-        Sprite image = null;
-        try
+        if (PackNameText != null)
+            PackNameText.text = content.name;
+
+        if (ConsumeLabel != null)
         {
-             image= ResourcesManager.Instance.ChestBG(content.bg);
+            if (data.type == 0)
+            {
+                ConsumeLabel.GetComponent<Image>().enabled = false;
+                ConsumeLabel.GetComponentInChildren<TextMeshProUGUI>().text = "$" + content.cost;
+            }
+            else
+            {
+                ConsumeLabel.GetComponent<Image>().enabled = true;
+                ConsumeLabel.GetComponentInChildren<TextMeshProUGUI>().text = content.coins.ToString();
+            }
         }
-        catch(NullReferenceException e)
-        {
-            Debug.Log(e);
-        }
-        transform.Find("icon").GetComponent<Image>().sprite = image;
+
+        Sprite image = ResourcesManager.Instance.ChestBG(content.bg);
+
+        if (PackIcon != null)
+            PackIcon.sprite = image;
 
         SetContentImage();
 
         if (ChestRemained)
         {
-            transform.Find("remain").GetComponentInChildren<TextMeshProUGUI>().text = "1/1";
-            transform.Find("mask").gameObject.SetActive(false);
-            transform.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                if (data != null)
-                {
-                    if (data.type == 0)
-                    {
-                        PopupManager.instance.ConfirmPopup.Show(data, () =>
-                        {
-                            CoinController.instance.AddCoins(data.coins);
-                            ChestRemained = false;
-                            cantPurchase();
-                            transform.GetComponent<Button>().onClick.RemoveAllListeners();
-                        });
+            if (RemainText != null)
+                RemainText.text = (content.PackCount - purchaseTimes) + "/" + content.PackCount;
 
-                    }
-                    else
-                    {
-                        if (ApplicationModel.Coins >= data.coins)
-                        {
-                            PopupManager.instance.ConfirmPopup.Show(data, () =>
-                            {
-                                CoinController.instance.ConsumeCoins(data.coins);
-                                ChestRemained = false;
-                                cantPurchase();
-                                transform.GetComponent<Button>().onClick.RemoveAllListeners();
-                            });
-
-                        }
-                        else
-                        {
-                            ShopWindowBoard.instance.ChangeSelectTab(ShopWindowBoard.PageContent.Coin);
-                        }
-                    }
-                }
-            });
+            if (PackMask != null)
+                PackMask.SetActive(false);
         }
         else
         {
@@ -130,14 +208,17 @@ public class ChestCell : UITableViewCell
     /// </summary>
     void SetContentImage()
     {
-        foreach(Transform child in transform.Find("content"))
+        foreach(Transform child in PackContent.transform)
         {
             child.gameObject.SetActive(false);
         }
         if (data.coins != 0 && data.type == 0)
         {
-            transform.Find("content/item").gameObject.SetActive(true);
-            transform.Find("content/item").GetComponentInChildren<TextMeshProUGUI>().text = data.coins.ToString();
+            if (PackItemGO != null)
+            {
+                PackItemGO.SetActive(true);
+                PackItemGO.GetComponentInChildren<TextMeshProUGUI>().text = data.coins.ToString();
+            }
         }
         for(int i = 0; i < data.content.Count; i++)
         {
@@ -168,7 +249,7 @@ public class ChestCell : UITableViewCell
             }
         }
 
-        GameObject newGO = Instantiate(transform.Find("content/item").gameObject, transform.Find("content"));
+        GameObject newGO = Instantiate(PackItemGO, PackContent.transform);
         itemGOPool.Add(newGO);
 
         return newGO;
@@ -176,10 +257,65 @@ public class ChestCell : UITableViewCell
 
     public void ClearUp()
     {
-        transform.GetComponent<Button>().onClick.RemoveAllListeners();
-        foreach(Transform child in transform.Find("content"))
+        foreach(Transform child in PackContent.transform)
         {
             child.gameObject.SetActive(false);
+        }
+    }
+
+    public void PackPurchaseClicked()
+    {
+        if (!ChestRemained)
+        {
+            return;
+        }
+
+        if (data != null)
+        {
+            if (data.type == 0)
+            {
+                PopupManager.instance.ConfirmPopup.Show(data, () =>
+                {
+                    CoinController.instance.AddCoins(data.coins);
+                    purchaseTimes++;
+                    PlayerPrefs.SetInt(ChestPurchaseTimes + "_" + index, purchaseTimes);
+
+                    if (RemainText != null)
+                        RemainText.text = (data.PackCount - purchaseTimes) + "/" + data.PackCount;
+                    if (purchaseTimes >= data.PackCount)
+                    {
+                        ChestRemained = false;
+                        cantPurchase();
+                    }
+                    
+                });
+
+            }
+            else
+            {
+                if (ApplicationModel.Coins >= data.coins)
+                {
+                    PopupManager.instance.ConfirmPopup.Show(data, () =>
+                    {
+                        CoinController.instance.ConsumeCoins(data.coins);
+                        purchaseTimes++;
+                        PlayerPrefs.SetInt(ChestPurchaseTimes + "_" + index, purchaseTimes);
+                        if (RemainText != null)
+                            RemainText.text = (data.PackCount - purchaseTimes) + "/" + data.PackCount;
+                        if (purchaseTimes >= data.PackCount)
+                        {
+                            ChestRemained = false;
+                            cantPurchase();
+                        }
+                        //
+                    });
+
+                }
+                else
+                {
+                    ShopWindowBoard.instance.ChangeSelectTab(ShopWindowBoard.PageContent.Coin);
+                }
+            }
         }
     }
 }
