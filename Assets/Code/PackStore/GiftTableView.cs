@@ -46,7 +46,10 @@ public class GiftTableView : UITableView, IUITableViewDataSource, IUITableViewDe
         while (i < cnt)
         {
             int id = orders[i];
-            if ((ApplicationModel.PurchaseTag & (1 << id)) != 0)
+            int packPurchasedCnt = PlayerPrefs.GetInt(ConstKey.ChestPurchaseTimes + id, 0);
+            int packCount = dataList[id].content.PackCount;
+
+            if (packPurchasedCnt >= packCount)//(ApplicationModel.PurchaseTag & (1 << id)) != 0)
             {
                 orders.RemoveAt(i);
                 orders.Add(id);
@@ -93,56 +96,14 @@ public class GiftTableView : UITableView, IUITableViewDataSource, IUITableViewDe
         var textCell = tableView.GetLoadedCell<ChestCell>(index);
         textCell.UpdateData(id, data.content);
         lifeCycle = textCell.lifeCycle;
-    
-        //switch (data.sampleType)
-        //{
-        //    case SampleData.SampleType.Text:
-        //        var textCell = tableView.GetLoadedCell<StoreItemCell>(index);
-        //        textCell.UpdateData(index, _selectedTabIndex, data.text);
-        //        lifeCycle = textCell.lifeCycle;
-        //        break;
-        //    case SampleData.SampleType.Image:
-        //        var imageCell = tableView.GetLoadedCell<SampleImageCell>(index);
-        //        imageCell.UpdateData(index, _selectedTabIndex, data);
-        //        lifeCycle = imageCell.lifeCycle;
-        //        break;
-        //    case SampleData.SampleType.Tab:
-        //        var tabCell = tableView.GetLoadedCell<SampleTabCell>(index);
-        //        tabCell.UpdateData(_selectedTabIndex, OnTabClicked);
-        //        lifeCycle = tabCell.lifeCycle;
-        //        break;
-        //    case SampleData.SampleType.Chat:
-        //        var chatCell = tableView.GetLoadedCell<SampleChatCell>(index);
-        //        chatCell.UpdateData(index, data.text);
-        //        lifeCycle = chatCell.lifeCycle;
-        //        break;
-        //    default:
-        //        throw new ArgumentOutOfRangeException();
-        //}
-    
-        //Debug.Log($"Cell at index:{index} is appeared. UITableViewLifeCycle is <color=green>{lifeCycle}</color>");
+
     }
     #endregion
     
     #region IUITableViewDataSource
     public UITableViewCell CellAtIndexInTableView(UITableView tableView, int index)
     {
-        //var data = dataList[_selectedTabIndex][index];
         return tableView.ReuseOrCreateCell(ChestCellPrefab);
-    
-        //switch (data.sampleType)
-        //{
-        //    case SampleData.SampleType.Text:
-        //        return tableView.ReuseOrCreateCell(_textCellPrefab);
-        //    case SampleData.SampleType.Image:
-        //        return tableView.ReuseOrCreateCell(_imageCellPrefab);
-        //    case SampleData.SampleType.Tab:
-        //        return tableView.ReuseOrCreateCell(_tabCellPrefab, UITableViewCellLifeCycle.RecycleWhenReloaded);
-        //    case SampleData.SampleType.Chat:
-        //        return tableView.ReuseOrCreateCell(_chatCellPrefab);
-        //    default:
-        //        throw new ArgumentOutOfRangeException();
-        //}
     }
     
     

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ConstKey
 {
-    public const string ChestPurchaseTimes = "Chest_Purchase_Times";
+    public const string ChestPurchaseTimes = "Chest_Purchase_Times_";
 }

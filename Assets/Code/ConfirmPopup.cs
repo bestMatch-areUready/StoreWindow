@@ -8,9 +8,11 @@ using UnityEngine.UI;
 
 public class ConfirmPopup : MonoBehaviour
 {
+    [SerializeField]
     RectTransform wrap;
-
+    [SerializeField]
     private GameObject consume;
+    [SerializeField]
     private GameObject purchase;
 
     [SerializeField]
@@ -18,20 +20,14 @@ public class ConfirmPopup : MonoBehaviour
     [SerializeField]
     private Button noButton;
 
-    private void Awake()
-    {
-        wrap = transform.GetChild(0).GetComponent<RectTransform>();
-        consume = wrap.Find("consume").gameObject;
-        purchase = wrap.Find("purchase").gameObject;
-    }
 
     public void Show(ChestJsonData data, Action onPurchased, Action beforeShow = null, Action afterShow = null)
     {
         beforeShow?.Invoke();
-
         gameObject.SetActive(true);
         wrap.localScale = Vector3.zero;
-        if (data.type == 0)
+
+        if (data.type == (int)ChestJsonData.packType.realMoneyPayments)
         {
             consume.SetActive(false);
             purchase.SetActive(true);
@@ -40,9 +36,20 @@ public class ConfirmPopup : MonoBehaviour
         {
             consume.SetActive(true);
             purchase.SetActive(false);
-            consume.transform.Find("from").GetComponentInChildren<TextMeshProUGUI>().text = ApplicationModel.Coins.ToString();
+
+            GameObject from = consume.transform.Find("from").gameObject;
+            GameObject to = consume.transform.Find("to").gameObject;
+            TextMeshProUGUI coinFrom = from.GetComponentInChildren<TextMeshProUGUI>();
+            TextMeshProUGUI coinTo = to.GetComponentInChildren<TextMeshProUGUI>();
             int result = ApplicationModel.Coins - data.coins;
-            consume.transform.Find("to").GetComponentInChildren<TextMeshProUGUI>().text = (result).ToString();
+
+            if (coinFrom != null)
+                coinFrom.text = ApplicationModel.Coins.ToString();
+            else Debug.Log("from_text not found");
+
+            if (coinTo != null)
+                coinTo.text = (result).ToString();
+            else Debug.Log("to_text not found");
         }
 
         wrap.DOScale(1f, 0.25f).SetEase(Ease.OutBack).OnComplete(() =>

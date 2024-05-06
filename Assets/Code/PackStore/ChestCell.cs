@@ -119,12 +119,13 @@ public class ChestCell : UITableViewCell
     {
         get
         {
-            return PlayerPrefs.GetInt(ConstKey.ChestPurchaseTimes + "_" + index, 0);
+            int cnt = PlayerPrefs.GetInt(ConstKey.ChestPurchaseTimes + index, 0);
+            return cnt;
         }
         set
         {
             purchaseTimes = value;
-            PlayerPrefs.SetInt(ConstKey.ChestPurchaseTimes + "_" + index, value);
+            PlayerPrefs.SetInt(ConstKey.ChestPurchaseTimes + index, value);
         }
     }
     #endregion

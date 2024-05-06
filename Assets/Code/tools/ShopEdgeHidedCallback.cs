@@ -11,11 +11,11 @@ public class ShopEdgeHidedCallback : MonoBehaviour, IEdgeHidedCallback
 
     public void OnEdgeHided()
     {
-        ArrowButton.GetComponent<Image>().transform.rotation = Quaternion.Euler(0, 0, 0);
+        ArrowButton.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     public void OnEdgeShowed()
     {
-        ArrowButton.GetComponent<Image>().transform.rotation = Quaternion.Euler(0, 0, 180);
+        ArrowButton.transform.rotation = Quaternion.Euler(0, 0, 180);
     }
 }
