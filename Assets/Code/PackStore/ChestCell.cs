@@ -335,7 +335,10 @@ public class ChestCell : UITableViewCell
                 }
                 else
                 {
-                    ShopWindowBoard.instance.ChangeSelectTab(ShopWindowBoard.PageContent.Coin);
+                    PopupManager.instance.ConfirmPopup.lackOfCoin(() =>
+                    {
+                        ShopWindowBoard.instance.ChangeSelectTab(ShopWindowBoard.PageContent.Coin);
+                    });
                 }
             }
         }

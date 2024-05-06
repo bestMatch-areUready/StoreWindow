@@ -14,6 +14,8 @@ public class ConfirmPopup : MonoBehaviour
     private GameObject consume;
     [SerializeField]
     private GameObject purchase;
+    [SerializeField]
+    private GameObject lackCoins;
 
     [SerializeField]
     private Button yesButton;
@@ -25,6 +27,7 @@ public class ConfirmPopup : MonoBehaviour
     {
         beforeShow?.Invoke();
         gameObject.SetActive(true);
+        lackCoins.SetActive(false);
         wrap.localScale = Vector3.zero;
 
         if (data.type == (int)ChestJsonData.packType.realMoneyPayments)
@@ -68,6 +71,32 @@ public class ConfirmPopup : MonoBehaviour
             Dismiss();
         });
     }
+
+    public void lackOfCoin(Action onConfirm,Action beforeShow = null,Action afterShow = null)
+    {
+        beforeShow?.Invoke();
+
+        gameObject.SetActive(true);
+        consume.SetActive(false);
+        purchase.SetActive(false);
+        lackCoins.SetActive(true);
+
+        wrap.localScale = Vector3.zero; wrap.DOScale(1f, 0.25f).SetEase(Ease.OutBack).OnComplete(() =>
+        {
+            afterShow?.Invoke();
+        });
+
+        yesButton.onClick.AddListener(() =>
+        {
+            onConfirm?.Invoke();
+            Dismiss();
+        });
+        noButton.onClick.AddListener(() =>
+        {
+            Dismiss();
+        });
+    }
+
 
     public void Dismiss()
     {
