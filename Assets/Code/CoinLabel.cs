@@ -18,11 +18,11 @@ public class CoinLabel : MonoBehaviour
     private void OnEnable()
     {
         ShowCoinsCount();
-        CoinController.instance.onCoinChanged.AddListener(CoinsCountAnim);
+        CoinController.instance.AddCoinListener(CoinsCountAnim);
     }
     private void OnDisable()
     {
-        CoinController.instance.onCoinChanged.RemoveListener(CoinsCountAnim);
+        CoinController.instance.RemoveCoinListener(CoinsCountAnim);
         if (anim != null)
         {
             StopCoroutine(anim);

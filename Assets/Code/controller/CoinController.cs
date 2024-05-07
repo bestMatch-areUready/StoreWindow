@@ -8,7 +8,7 @@ public class CoinController : MonoBehaviour
     //public delegate void CoinControllerDelegate();
     //public static CoinControllerDelegate onCoinChange;
 
-    public UnityEvent onCoinChanged;
+    private UnityEvent onCoinChanged;
 
     private void Awake()
     {
@@ -26,5 +26,22 @@ public class CoinController : MonoBehaviour
     {
         ApplicationModel.Coins -= count;
         onCoinChanged?.Invoke();
+    }
+
+    public void AddCoinListener(UnityAction callback)
+    {
+        if (callback == null) return;
+
+        onCoinChanged.AddListener(callback);
+    }
+    public void RemoveCoinListener(UnityAction callback)
+    {
+        if (callback == null) return;
+
+        onCoinChanged.RemoveListener(callback);
+    }
+    public void RemoveAllCoinListeners()
+    {
+        onCoinChanged.RemoveAllListeners();
     }
 }
